@@ -1,19 +1,22 @@
-﻿
+﻿//using IWshRuntimeLibrary;
 
 
 
 
+
+using IWshRuntimeLibrary;
 
 class Program
 {
     static void Main(string[] args)
     {
+        
         Console.Write("Format your values like this: ");
-        Console.WriteLine("[folderPath] * [searchedFileExtention]");
+        Console.WriteLine("[folderPath];[searchedFileExtention]");
         Console.Write(@"FileExtentionTracker\: ");
         string input = Console.ReadLine();
 
-        string[] dirs = Directory.GetFiles(input.Split(" * ")[0], "*" + input.Split(" * ")[1], SearchOption.AllDirectories);
+        string[] dirs = Directory.GetFiles(input.Split(";")[0], "*" + input.Split(";")[1], SearchOption.AllDirectories);
 
         for (int i = 0; i < dirs.Length; i++)
         {
@@ -22,6 +25,41 @@ class Program
 
         Console.WriteLine("done");
 
+
+
+
+
+        Console.WriteLine("");
+        Console.Write("choose which to make a shortcut of like this: ");
+        Console.WriteLine("[shortcutName];[targetFileLocationNumber]");
+        Console.Write(@"FileExtentionTracker\: ");
+
+        input = Console.ReadLine();
+
+        if (!System.IO.Directory.Exists("Where Shortcuts Are Sent"))
+        {
+            System.IO.Directory.CreateDirectory("Where Shortcuts Are Sent");
+        }
+
+
+
+        CreateShortcut(input.Split(";")[0], dirs[int.Parse(input.Split(";")[1]) - 1]);
+
+        
+
         Console.ReadLine();
+    }
+
+
+    public static void CreateShortcut(string shortcutName, string targetFileLocation)
+    {
+        string shortcutLocation = System.IO.Path.Combine(@"Where Shortcuts Are Sent\", shortcutName + ".lnk");
+        WshShell shell = new WshShell();
+        IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutLocation);
+
+        shortcut.Description = "My shortcut description";   // The description of the shortcut
+        shortcut.IconLocation = targetFileLocation;           // The icon of the shortcut
+        shortcut.TargetPath = targetFileLocation;                 // The path of the file that will launch when the shortcut is run
+        shortcut.Save();                                    // Save the shortcut
     }
 }
