@@ -27,15 +27,6 @@ class Program
 
 
 
-
-
-        Console.WriteLine("");
-        Console.Write("choose which to make a shortcut of like this: ");
-        Console.WriteLine("[shortcutName];[targetFileLocationNumber]");
-        Console.Write(@"FileExtentionTracker\: ");
-
-        input = Console.ReadLine();
-
         if (!System.IO.Directory.Exists("Where Shortcuts Are Sent"))
         {
             System.IO.Directory.CreateDirectory("Where Shortcuts Are Sent");
@@ -43,7 +34,38 @@ class Program
 
 
 
-        CreateShortcut(input.Split(";")[0], dirs[int.Parse(input.Split(";")[1]) - 1]);
+        Console.WriteLine("\nmass shortcut? (y/n)");
+        //ConsoleKeyInfo keyInfo = ;
+        char answer = Console.ReadKey().KeyChar;
+
+        if (answer.ToString().ToLower() == "y")
+        {
+            for (int i = 0; i < dirs.Length; i++)
+            {
+                CreateShortcut(dirs[i].Split(@"\")[^1].Split(".")[0], dirs[i]);
+            }
+
+            Console.WriteLine("done");
+
+            Console.ReadLine();
+
+            System.Environment.Exit(1);
+        }
+
+
+
+        Console.WriteLine("");
+        Console.Write("choose which to make a shortcut of like this: ");
+        Console.WriteLine("[targetFileLocationNumber];[shortcutName]");
+        Console.Write(@"FileExtentionTracker\: ");
+
+        input = Console.ReadLine();
+
+        
+
+        CreateShortcut(dirs[int.Parse(input.Split(";")[0]) - 1], input.Split(";")[1]);
+
+        Console.WriteLine("done");
 
         
 
@@ -51,15 +73,15 @@ class Program
     }
 
 
-    public static void CreateShortcut(string shortcutName, string targetFileLocation)
+    public static void CreateShortcut(string targetFileLocation, string shortcutName)
     {
         string shortcutLocation = System.IO.Path.Combine(@"Where Shortcuts Are Sent\", shortcutName + ".lnk");
         WshShell shell = new WshShell();
         IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutLocation);
 
-        shortcut.Description = "My shortcut description";   // The description of the shortcut
-        shortcut.IconLocation = targetFileLocation;           // The icon of the shortcut
-        shortcut.TargetPath = targetFileLocation;                 // The path of the file that will launch when the shortcut is run
-        shortcut.Save();                                    // Save the shortcut
+        shortcut.Description = "Shortcut made by Hacktheegg Code";
+        shortcut.IconLocation = targetFileLocation;
+        shortcut.TargetPath = targetFileLocation;
+        shortcut.Save();
     }
 }
