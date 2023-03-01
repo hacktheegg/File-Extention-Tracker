@@ -1,10 +1,6 @@
-﻿//using IWshRuntimeLibrary;
+﻿using IWshRuntimeLibrary;
 
 
-
-
-
-using IWshRuntimeLibrary;
 
 class Program
 {
@@ -35,15 +31,35 @@ class Program
 
 
         Console.WriteLine("\nmass shortcut? (y/n)");
-        //ConsoleKeyInfo keyInfo = ;
-        char answer = Console.ReadKey().KeyChar;
+
+        char answer = Console.ReadKey(true).KeyChar;
 
         if (answer.ToString().ToLower() == "y")
         {
-            for (int i = 0; i < dirs.Length; i++)
+
+            Console.WriteLine("\nAdd previous folder with shortcut name? (y/n)");
+
+            answer = Console.ReadKey(true).KeyChar;
+
+            if (answer.ToString().ToLower() == "y")
             {
-                CreateShortcut(dirs[i].Split(@"\")[^1].Split(".")[0], dirs[i]);
+                for (int i = 0; i < dirs.Length; i++)
+                {
+
+                    CreateShortcut(dirs[i], dirs[i].Split(@"\")[^2] + "   " + dirs[i].Split(@"\")[^1].Split(".")[0]);
+
+                }
+            } 
+            else
+            {
+                for (int i = 0; i < dirs.Length; i++)
+                {
+
+                    CreateShortcut(dirs[i], dirs[i].Split(@"\")[^1].Split(".")[0]);
+
+                }
             }
+            
 
             Console.WriteLine("done");
 
