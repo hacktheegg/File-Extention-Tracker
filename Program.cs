@@ -1,5 +1,11 @@
 ﻿using IWshRuntimeLibrary;
-
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.IO;
 
 
 class Program
@@ -37,55 +43,15 @@ class Program
         if (answer.ToString().ToLower() == "y")
         {
 
-            Console.WriteLine("\nAdd previous folder with shortcut name? (y/n)");
+            System.IO.File.WriteAllLines("Where Shortcuts Are Sent\\Shortcuts.txt", dirs);
 
-            answer = Console.ReadKey(true).KeyChar;
-
-            if (answer.ToString().ToLower() == "y")
-            {
-                for (int i = 0; i < dirs.Length; i++)
-                {
-
-                    CreateShortcut(dirs[i], dirs[i].Split(@"\")[^2] + "   " + dirs[i].Split(@"\")[^1].Split(".")[0]);
-
-                }
-            } 
-            else
-            {
-                for (int i = 0; i < dirs.Length; i++)
-                {
-
-                    CreateShortcut(dirs[i], dirs[i].Split(@"\")[^1].Split(".")[0]);
-
-                }
-            }
-            
-
-            Console.WriteLine("done");
-
-            Console.ReadLine();
-
-            System.Environment.Exit(1);
         }
-
-
-
-        Console.WriteLine("");
-        Console.Write("choose which to make a shortcut of like this: ");
-        Console.WriteLine("[targetFileLocationNumber];[shortcutName]");
-        Console.Write(@"FileExtentionTracker\: ");
-
-        input = Console.ReadLine();
-
-        
-
-        CreateShortcut(dirs[int.Parse(input.Split(";")[0]) - 1], input.Split(";")[1]);
-
+            
         Console.WriteLine("done");
 
-        
-
         Console.ReadLine();
+
+        System.Environment.Exit(1);
     }
 
 
