@@ -53,17 +53,4 @@ class Program
 
         System.Environment.Exit(1);
     }
-
-
-    public static void CreateShortcut(string targetFileLocation, string shortcutName)
-    {
-        string shortcutLocation = System.IO.Path.Combine(@"Where Shortcuts Are Sent\", shortcutName + ".lnk");
-        WshShell shell = new WshShell();
-        IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutLocation);
-
-        shortcut.Description = "Shortcut made by Hacktheegg Code";
-        shortcut.IconLocation = targetFileLocation;
-        shortcut.TargetPath = targetFileLocation;
-        shortcut.Save();
-    }
 }
